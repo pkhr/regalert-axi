@@ -1,0 +1,61 @@
+{
+  "name": "regalert-axi",
+  "version": "0.1.0",
+  "description": "AXI for RegAlert: search and read the official publications of financial regulators from the shell, with token-efficient TOON output",
+  "type": "module",
+  "license": "MIT",
+  "author": "RegAlert <ask@regalert.today>",
+  "homepage": "https://mcp.regalert.today/llms.txt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pkhr/regalert-axi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pkhr/regalert-axi/issues"
+  },
+  "keywords": [
+    "axi",
+    "agent",
+    "cli",
+    "toon",
+    "regulation",
+    "compliance",
+    "regtech",
+    "regalert"
+  ],
+  "bin": {
+    "regalert-axi": "./dist/bin/regalert-axi.js"
+  },
+  "files": [
+    "dist/bin",
+    "dist/src",
+    "skills/regalert-axi",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "build:skill": "tsx scripts/build-skill.ts",
+    "check:skill": "tsx scripts/build-skill.ts --check",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && vitest run",
+    "dev": "tsx bin/regalert-axi.ts",
+    "prepublishOnly": "npm run typecheck && npm test && npm run check:skill"
+  },
+  "dependencies": {
+    "@toon-format/toon": "2.3.1",
+    "axi-sdk-js": "0.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
