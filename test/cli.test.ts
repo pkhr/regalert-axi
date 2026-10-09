@@ -204,7 +204,7 @@ describe("doc", () => {
     const bad = await cli("doc", "nope");
     expect(bad.code).toBe(2);
     expect(bad.out).toContain("code: BAD_UID");
-    for (const args of [["--full", "--max-chars", "5"], ["--query", "x", "--offset", "5"], ["--query", "x", "--original"]]) {
+    for (const args of [["--full", "--max-chars", "5000"], ["--query", "x", "--offset", "5"], ["--query", "x", "--original"]]) {
       const r = await cli("doc", UID, ...args);
       expect(r.code).toBe(2);
       expect(r.out).toContain("code: CONFLICTING_FLAGS");

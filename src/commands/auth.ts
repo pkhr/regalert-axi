@@ -18,7 +18,7 @@ export const LOGIN: CommandSpec = {
   flags: {
     wait: { kind: "boolean", help: "Wait here until the sign-in is approved (up to 10 minutes)" },
     "callback-url": { kind: "string", value: "address", help: "Finish a sign-in by hand: the whole address the browser ended on (for a browser on another machine)" },
-    port: { kind: "int", help: "Loopback port for the browser to return to (default 53682, or a free one)" },
+    port: { kind: "int", min: 1024, max: 65535, help: "Loopback port for the browser to return to (default 53682, or a free one)" },
     force: { kind: "boolean", help: "Start a new sign-in although one is stored" },
   },
   notes: ["Free with a RegAlert account. REGALERT_TOKEN, when set, is used as the token and no sign-in is needed."],

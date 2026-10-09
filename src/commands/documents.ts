@@ -31,7 +31,7 @@ export const SEARCH: CommandSpec = {
   flags: {
     ...FILTER_FLAGS,
     sort: { kind: "string", value: "order", help: "relevance (default), or newest = the most recent of the 200 most relevant hits", choices: ["relevance", "newest"] },
-    limit: { kind: "int", help: "Rows to show, 1-50 (default 10)" },
+    limit: { kind: "int", min: 1, max: 50, help: "Rows to show, 1-50 (default 10)" },
     fields: FIELDS_FLAG,
   },
   renamed: { ...RENAMED, "--query": 'The words are the argument: `regalert-axi search "<words>"`', "--q": 'The words are the argument: `regalert-axi search "<words>"`' },
@@ -45,7 +45,7 @@ export const RECENT: CommandSpec = {
     ...FILTER_FLAGS,
     since: { kind: "string", value: "YYYY-MM-DD", help: "First date, inclusive" },
     until: { kind: "string", value: "YYYY-MM-DD", help: "Last date, inclusive" },
-    limit: { kind: "int", help: "Rows to show, 1-100 (default 20)" },
+    limit: { kind: "int", min: 1, max: 100, help: "Rows to show, 1-100 (default 20)" },
     offset: { kind: "int", help: "Rows to skip, to page through the total (default 0)" },
     fields: { ...FIELDS_FLAG, help: `${FIELDS_FLAG.help}, type, language, source` },
   },

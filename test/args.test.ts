@@ -10,7 +10,7 @@ const SPEC: CommandSpec = {
   flags: {
     regulator: { kind: "string", value: "code", help: "Regulator code" },
     sort: { kind: "string", value: "order", help: "Order", choices: ["relevance", "newest"] },
-    limit: { kind: "int", help: "Rows" },
+    limit: { kind: "int", min: 1, max: 50, help: "Rows" },
     all: { kind: "boolean", help: "Everything" },
     secret: { kind: "boolean", help: "Internal", hidden: true },
   },
@@ -68,6 +68,10 @@ describe("parseArgs", () => {
     expect(fail(() => parseArgs(SPEC, ["capital", "--limit", "-5"])).code).toBe("BAD_VALUE");
     expect(fail(() => parseArgs(SPEC, ["capital", "--sort", "oldest"])).message).toBe('--sort must be one of relevance, newest; got "oldest"');
     expect(fail(() => parseArgs(SPEC, ["capital", "--all=true"])).code).toBe("BAD_VALUE");
+    // out of range is refused, not clamped: a quiet 50 for a typed 500 would read as "that is all there is"
+    expect(fail(() => parseArgs(SPEC, ["capital", "--limit", "500"])).message).toBe("--limit must be from 1 to 50; got 500");
+    expect(fail(() => parseArgs(SPEC, ["capital", "--limit", "0"])).code).toBe("BAD_VALUE");
+    expect(parseArgs(SPEC, ["capital", "--limit", "50"]).flags.limit).toBe(50);
     expect(fail(() => parseArgs(SPEC, ["capital", "--limit", "1", "--limit", "2"])).code).toBe("DUPLICATE_FLAG");
   });
 

@@ -20,7 +20,7 @@ export const DOC: CommandSpec = {
   flags: {
     query: { kind: "string", value: "words", help: "Print only the passages that hold these words, each with its offset" },
     offset: { kind: "int", help: "Start the text at this character: a passage's offset, or the end of the last part (default 0)" },
-    "max-chars": { kind: "int", help: `Most characters of text to print (default ${DEFAULT_MAX_CHARS}; with --query, 8000)` },
+    "max-chars": { kind: "int", min: 1000, max: FULL_MAX_CHARS, help: `Most characters of text to print, 1000-${FULL_MAX_CHARS} (default ${DEFAULT_MAX_CHARS}; with --query, 8000)` },
     full: { kind: "boolean", help: "The whole text from --offset on, however long" },
     original: { kind: "boolean", help: "Also the original-language text (not with --query)" },
   },
@@ -36,7 +36,7 @@ export const LINEAGE: CommandSpec = {
   flags: {
     direction: { kind: "string", value: "direction", help: "outgoing = older instruments this document cites; incoming = newer ones that cite it", choices: ["outgoing", "incoming"] },
     relation: { kind: "string", value: "relation", help: "Only one relation", choices: ["amends", "supersedes", "issued_under", "refers"] },
-    limit: { kind: "int", help: "Rows a direction, 1-100 (default 20)" },
+    limit: { kind: "int", min: 1, max: 100, help: "Rows a direction, 1-100 (default 20)" },
     offset: { kind: "int", help: "Rows to skip; needs --direction" },
   },
   examples: ["lineage <uid>", "lineage <uid> --direction incoming --relation amends", "lineage <uid> --direction incoming --offset 20"],

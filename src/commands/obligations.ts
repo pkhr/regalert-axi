@@ -18,7 +18,7 @@ export const OBLIGATIONS: CommandSpec = {
     regulator: { kind: "string", value: "code", help: "Only this regulator, e.g. MAS" },
     category: { kind: "string", value: "label", help: "One label. Default: obligation, prohibition and permission", choices: CATEGORIES },
     document: { kind: "string", value: "uid", help: "Only sentences of this document" },
-    limit: { kind: "int", help: "Rows to show, 1-20 (default 10)" },
+    limit: { kind: "int", min: 1, max: 20, help: "Rows to show, 1-20 (default 10)" },
   },
   notes: ["Not every document is covered yet: no hit here does not mean no rule exists. Research aid, not legal advice."],
   examples: ['obligations "deadline to report a cyber incident" --jurisdiction SG', "obligations who must appoint a compliance officer", "obligations outsourcing --document <uid>"],
@@ -30,7 +30,7 @@ export const SIMILAR: CommandSpec = {
   positionals: [{ name: "id", required: true, help: "the id of an `obligations` row" }],
   flags: {
     jurisdiction: { kind: "string", value: "code", help: "Look only in this jurisdiction" },
-    limit: { kind: "int", help: "Rows to show, 1-10 (default 5)" },
+    limit: { kind: "int", min: 1, max: 10, help: "Rows to show, 1-10 (default 5)" },
   },
   notes: ["The candidates are found by meaning and checked by a model: read the sentences before you conclude that two rules match."],
   examples: ["similar <id>", "similar <id> --jurisdiction SG"],

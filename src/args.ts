@@ -17,6 +17,9 @@ export interface FlagSpec {
   value?: string;
   help: string;
   choices?: readonly string[];
+  /** For "int": the smallest and the largest value taken. A value outside is refused, not clamped. */
+  min?: number;
+  max?: number;
   /** Not shown in the help (internal use). */
   hidden?: boolean;
 }
@@ -135,7 +138,12 @@ export function parseArgs(spec: CommandSpec, args: string[]): Parsed {
     }
     if (flag.kind === "int") {
       if (!/^\d+$/.test(value)) throw new UsageError(`--${name} must be a whole number, 0 or more; got "${value}"`, "BAD_VALUE");
-      flags[name] = Number(value);
+      const n = Number(value);
+      // Out of range is said, not clamped: `--limit 500` that quietly became 50 would look like "that is all there is".
+      if ((flag.min !== undefined && n < flag.min) || (flag.max !== undefined && n > flag.max)) {
+        throw new UsageError(`--${name} must be from ${flag.min ?? 0} to ${flag.max ?? "any number"}; got ${value}`, "BAD_VALUE", [`${flagLabel(name, flag)}: ${flag.help}`]);
+      }
+      flags[name] = n;
     } else {
       flags[name] = value;
     }
